@@ -34,7 +34,7 @@ function getWeather(lat,lon) {
     }
     else {
       console.log("Error Getting Weather: " + req.status);
-      sendMessage("ERR");
+      sendMessage("999");
     }
   };
   req.send(null);
