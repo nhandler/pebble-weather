@@ -10,10 +10,39 @@ function sendMessage() {
 	// also be called if your message send attempt times out.
 }
 
+function getWeather(lat,lon) {
+  console.log("Getting Weather");
+  console.log("Latitude: " + lat);
+  console.log("Longitude: " + lon);
+
+  var baseUrl = "http://api.openweathermap.org/data/2.5/weather?";
+  var url = baseUrl + "lat=" + lat + "&lon=" + lon;
+  console.log("URL: " + url);
+
+  var req = new XMLHttpRequest();
+  req.open('GET', url, true);
+  req.onload = function(e) {
+    if (req.readyState == 4 && req.status == 200) {
+        var response = JSON.parse(req.responseText);
+        var kelvin = response.main.temp;
+        var celsius = kelvin - 273.15;
+        var farenheit = (9/5) * celsius + 32;
+
+        console.log("Weather: " + farenheit.toFixed(0));
+    }
+    else {
+      console.log("Error Getting Weather: " + req.status);
+    }
+  };
+  req.send(null);
+}
 
 // Called when JS is ready
 Pebble.addEventListener("ready",
 							function(e) {
+                var lat = 40.1138244997356;
+                var lon = -88.224075899343;
+                getWeather(lat, lon);
 							});
 												
 // Called when incoming message from the Pebble is received
