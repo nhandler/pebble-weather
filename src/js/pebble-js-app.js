@@ -1,6 +1,6 @@
 // Function to send a message to the Pebble using AppMessage API
-function sendMessage() {
-	Pebble.sendAppMessage({"status": 0, "message": "Hi Pebble, I'm a Phone!"});
+function sendMessage(msg) {
+	Pebble.sendAppMessage({"message": msg});
 	
 	// PRO TIP: If you are sending more than one message, or a complex set of messages, 
 	// it is important that you setup an ackHandler and a nackHandler and call 
@@ -23,15 +23,18 @@ function getWeather(lat,lon) {
   req.open('GET', url, true);
   req.onload = function(e) {
     if (req.readyState == 4 && req.status == 200) {
-        var response = JSON.parse(req.responseText);
-        var kelvin = response.main.temp;
-        var celsius = kelvin - 273.15;
-        var farenheit = (9/5) * celsius + 32;
+      var response = JSON.parse(req.responseText);
+      var kelvin = response.main.temp;
+      var celsius = kelvin - 273.15;
+      var farenheit = (9/5) * celsius + 32;
+      var temperature = farenheit.toFixed(0);
 
-        console.log("Weather: " + farenheit.toFixed(0));
+      console.log("Weather: " + temperature);
+      sendMessage(temperature);
     }
     else {
       console.log("Error Getting Weather: " + req.status);
+      sendMessage("ERR");
     }
   };
   req.send(null);
@@ -48,7 +51,5 @@ Pebble.addEventListener("ready",
 // Called when incoming message from the Pebble is received
 Pebble.addEventListener("appmessage",
 							function(e) {
-								console.log("Received Status: " + e.payload[0]);
-								console.log("Received Message: " + e.payload[1]);
-								sendMessage();
+								console.log("Received Message: " + e.payload[0]);
 							});

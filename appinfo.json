@@ -2,8 +2,7 @@
     "versionLabel": "1.0",
     "uuid": "7bd8c9da-46e2-49d7-bf55-b0a29b7bedfb",
     "appKeys": {
-        "status": 0,
-        "message": 1
+        "message": 0
     },
     "longName": "pebble-weather",
     "versionCode": 1,
