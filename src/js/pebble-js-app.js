@@ -10,7 +10,22 @@ function sendMessage(msg) {
 	// also be called if your message send attempt times out.
 }
 
-function getWeather(lat,lon) {
+function getLocation() {
+  if ("geolocation" in navigator) {
+    /* geolocation is available */
+    console.log("Geolocation is available");
+    navigator.geolocation.getCurrentPosition(getWeather);
+  }
+  else {
+    /* geolocation is NOT available */
+    console.log("Geolocation is NOT available");
+  }
+}
+
+
+function getWeather(position) {
+  var lat = position.coords.latitude;
+  var lon = position.coords.longitude;
   console.log("Getting Weather");
   console.log("Latitude: " + lat);
   console.log("Longitude: " + lon);
@@ -43,9 +58,7 @@ function getWeather(lat,lon) {
 // Called when JS is ready
 Pebble.addEventListener("ready",
 							function(e) {
-                var lat = 40.1138244997356;
-                var lon = -88.224075899343;
-                getWeather(lat, lon);
+                getLocation(); 
 							});
 												
 // Called when incoming message from the Pebble is received
