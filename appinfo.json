@@ -4,17 +4,14 @@
     "appKeys": {
         "message": 0
     },
-    "longName": "pebble-weather",
+    "longName": "Weather Example",
     "versionCode": 1,
     "capabilities": [
-        ""
+        "location"
     ],
-    "shortName": "pebble-weather",
-    "companyName": "nathan.handler@gmail.com",
+    "shortName": "Weather Example",
+    "companyName": "Nathan Handler",
     "watchapp": {
         "watchface": false
-    },
-    "resources": {
-        "media": []
     }
 }

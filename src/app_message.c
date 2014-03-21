@@ -1,53 +1,27 @@
 #include <pebble.h>
 
-Window *window;	
-TextLayer *text_layer;
-	
+static Window *window;
+static TextLayer *text_layer;
+
 // Key values for AppMessage Dictionary
 enum {
-	MESSAGE_KEY = 0
+    MESSAGE_KEY = 0
 };
 
-// Write message to buffer & send
-void send_message(void){
-	DictionaryIterator *iter;
-	
-	app_message_outbox_begin(&iter);
-	dict_write_cstring(iter, MESSAGE_KEY, "Hi Phone, I'm a Pebble!");
-
-	dict_write_end(iter);
-  	app_message_outbox_send();
-}
-
-// Called when a message is received from PebbleKitJS
-static void in_received_handler(DictionaryIterator *received, void *context) {
-	Tuple *tuple;
-	
-	tuple = dict_find(received, MESSAGE_KEY);
-	if(tuple) {
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "Received Message: %s", tuple->value->cstring);
-        text_layer_set_text(text_layer, tuple->value->cstring);
-	}}
-
-// Called when an incoming message from PebbleKitJS is dropped
-static void in_dropped_handler(AppMessageResult reason, void *context) {	
-}
-
-// Called when PebbleKitJS does not acknowledge receipt of a message
-static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
+int main( void ) {
+    init();
+    app_event_loop();
+    deinit();
 }
 
 void init(void) {
-	window = window_create();
+    window = window_create();
     window_set_background_color(window, GColorBlack);
-	window_stack_push(window, true);
-	
-	// Register AppMessage handlers
-	app_message_register_inbox_received(in_received_handler); 
-	app_message_register_inbox_dropped(in_dropped_handler); 
-	app_message_register_outbox_failed(out_failed_handler);
-		
-	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
+    window_stack_push(window, true);
+
+    // Register AppMessage handlers
+    app_message_register_inbox_received(in_received_handler); 
+    app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
     Layer *window_layer = window_get_root_layer(window);
     GRect bounds = layer_get_bounds(window_layer);
@@ -60,14 +34,18 @@ void init(void) {
     layer_add_child(window_layer, text_layer_get_layer(text_layer));
 }
 
-void deinit(void) {
-	app_message_deregister_callbacks();
-    text_layer_destroy(text_layer);
-	window_destroy(window);
+// Called when a message is received from PebbleKitJS
+static void in_received_handler(DictionaryIterator *received, void *context) {
+    Tuple *tuple;
+    tuple = dict_find(received, MESSAGE_KEY);
+    if(tuple) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "Received Message: %s", tuple->value->cstring);
+        text_layer_set_text(text_layer, tuple->value->cstring);
+    }
 }
 
-int main( void ) {
-	init();
-	app_event_loop();
-	deinit();
+void deinit(void) {
+    app_message_deregister_callbacks();
+    text_layer_destroy(text_layer);
+    window_destroy(window);
 }
