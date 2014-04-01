@@ -1,17 +1,20 @@
 {
-    "versionLabel": "1.0",
     "uuid": "7bd8c9da-46e2-49d7-bf55-b0a29b7bedfb",
+    "shortName": "Weather Example",
+    "longName": "Weather Example",
+    "companyName": "Nathan Handler",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    },
     "appKeys": {
         "message": 0
     },
-    "longName": "Weather Example",
-    "versionCode": 1,
     "capabilities": [
         "location"
     ],
-    "shortName": "Weather Example",
-    "companyName": "Nathan Handler",
-    "watchapp": {
-        "watchface": false
+    "resources": {
+      "media": []
     }
 }

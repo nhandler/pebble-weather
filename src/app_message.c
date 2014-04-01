@@ -8,10 +8,14 @@ enum {
     MESSAGE_KEY = 0
 };
 
-int main( void ) {
-    init();
-    app_event_loop();
-    deinit();
+// Called when a message is received from PebbleKitJS
+static void in_received_handler(DictionaryIterator *received, void *context) {
+    Tuple *tuple;
+    tuple = dict_find(received, MESSAGE_KEY);
+    if(tuple) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "Received Message: %s", tuple->value->cstring);
+        text_layer_set_text(text_layer, tuple->value->cstring);
+    }
 }
 
 void init(void) {
@@ -34,18 +38,14 @@ void init(void) {
     layer_add_child(window_layer, text_layer_get_layer(text_layer));
 }
 
-// Called when a message is received from PebbleKitJS
-static void in_received_handler(DictionaryIterator *received, void *context) {
-    Tuple *tuple;
-    tuple = dict_find(received, MESSAGE_KEY);
-    if(tuple) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "Received Message: %s", tuple->value->cstring);
-        text_layer_set_text(text_layer, tuple->value->cstring);
-    }
-}
-
 void deinit(void) {
     app_message_deregister_callbacks();
     text_layer_destroy(text_layer);
     window_destroy(window);
+}
+
+int main( void ) {
+    init();
+    app_event_loop();
+    deinit();
 }
