@@ -40,7 +40,7 @@ function getWeather(position) {
     if (req.readyState == 4 && req.status == 200) {
       var response = JSON.parse(req.responseText);
       var fahrenheit = response.main.temp;
-      var temperature = fahrenheit.toFixed(0);
+      var temperature = fahrenheit.toFixed(0) + "F";
 
       console.log("Weather: " + temperature);
       sendMessage(temperature);
