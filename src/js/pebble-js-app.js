@@ -30,7 +30,7 @@ function getWeather(position) {
   console.log("Latitude: " + lat);
   console.log("Longitude: " + lon);
 
-  var baseUrl = "http://api.openweathermap.org/data/2.5/weather?";
+  var baseUrl = "http://api.openweathermap.org/data/2.5/weather?units=imperial&";
   var url = baseUrl + "lat=" + lat + "&lon=" + lon;
   console.log("URL: " + url);
 
@@ -39,10 +39,8 @@ function getWeather(position) {
   req.onload = function(e) {
     if (req.readyState == 4 && req.status == 200) {
       var response = JSON.parse(req.responseText);
-      var kelvin = response.main.temp;
-      var celsius = kelvin - 273.15;
-      var farenheit = (9/5) * celsius + 32;
-      var temperature = farenheit.toFixed(0);
+      var fahrenheit = response.main.temp;
+      var temperature = fahrenheit.toFixed(0) + "F";
 
       console.log("Weather: " + temperature);
       sendMessage(temperature);
@@ -57,6 +55,6 @@ function getWeather(position) {
 
 // Called when JS is ready
 Pebble.addEventListener("ready",
-							function(e) {
-                getLocation(); 
-							});
+  function(e) {
+    getLocation(); 
+  });
