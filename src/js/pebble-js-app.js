@@ -55,6 +55,12 @@ function getWeather(position) {
 
 // Called when JS is ready
 Pebble.addEventListener("ready",
+<<<<<<< HEAD
   function(e) {
     getLocation(); 
   });
+=======
+							function(e) {
+                getLocation(); 
+							});
+>>>>>>> FETCH_HEAD
