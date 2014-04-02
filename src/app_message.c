@@ -32,7 +32,7 @@ void init(void) {
 
     text_layer = text_layer_create((GRect) { .origin = { 0, 50 }, .size = { bounds.size.w, 60 } });
     text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
-    text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
+    text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_DROID_SERIF_28_BOLD));
     text_layer_set_text_color(text_layer, GColorWhite);
     text_layer_set_background_color(text_layer, GColorBlack);
     layer_add_child(window_layer, text_layer_get_layer(text_layer));
